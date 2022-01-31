@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import contactsActions from "../../redux/contacts/contacts-actions";
 
 import css from "./ContactForm.module.css";
 
-const ContactForm = ({ onAddContact }) => {
+export default function ContactForm() {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
+
+  // const contacts = useSelector((state) => state.contacts.items);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,6 +28,8 @@ const ContactForm = ({ onAddContact }) => {
     }
   };
 
+  // const onSubmit = () => dispatch(contactsActions.addContact(name, number));
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -33,7 +38,14 @@ const ContactForm = ({ onAddContact }) => {
       number: number,
     };
 
-    onAddContact({ ...contactName });
+    // const theSameContact = contacts.some(
+    //   (contact) => contact.name.toLowerCase() === contactName.name.toLowerCase()
+    // );
+
+    // if (theSameContact) return alert(`${name}  is already in contacts.`);
+    // else onAddContact((prevContacts) => [...prevContacts, contactName]);
+    dispatch(contactsActions.addContact(contactName));
+    // onAddContact({ ...contactName });
     setName("");
     setNumber("");
   };
@@ -70,12 +82,14 @@ const ContactForm = ({ onAddContact }) => {
       <button type="submit">Add contact</button>
     </form>
   );
-};
+}
+// const mapStateToProps = (state) => ({
+//   contacts: state.contacts.items,
+// });
 
+// const mapDispatchToProps = (dispatch) => ({
+//   onSubmit: (name, number) =>
+//     dispatch(contactsActions.addContact(name, number)),
+// });
 
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit: (name, number) =>
-    dispatch(contactsActions.addContact(name, number)),
-});
-
-export default connect(null, mapDispatchToProps)(ContactForm);
+// export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);

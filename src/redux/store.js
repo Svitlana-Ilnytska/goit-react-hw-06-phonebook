@@ -19,7 +19,7 @@ const contactsPersistConfig = {
   blacklist: ["filter"],
 };
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
     contacts: persistReducer(contactsPersistConfig, contactsReducer),
   },
@@ -34,7 +34,5 @@ const store = configureStore({
   devTools: process.env.NODE_ENV === "development",
 });
 
-const persistor = persistStore(store);
+export const persistor = persistStore(store);
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default { store, persistor };
